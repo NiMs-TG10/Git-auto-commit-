@@ -91,11 +91,3 @@ git-acm                      # Generate a commit message using the currently sel
    ```
 5. `cargo run --` to get the commit msg in the terminal.
 6. start with `main.rs` and break stuff.
-
-<br>
-
-[report 🐞bugs here](https://x.com/shivamhwp)
-
-bhai(s) : [sargam](https://x.com/sargampoudel) (idea) and [smr](https://x.com/smrdotgg) (suggestions).
-
-<br>
