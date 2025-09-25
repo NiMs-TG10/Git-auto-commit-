@@ -9,6 +9,7 @@ impl Check {
                 "either export the key in terminal or define them in .env"
             );
             std::process::exit(1)
+            // exit(0) = success , 1 != success
         }
     }
 
@@ -31,11 +32,12 @@ impl Check {
 
     pub fn is_diff_empty(value: &str) {
         if value.is_empty() {
-            println!("{}", "🤔 are the stages changed ?".red());
-            println!("{}", "💡 try `git add <file_name>`".red());
+            println!("{}", "are the stages changed ?".red());
+            println!("{}", "try `git add <file_name>`".red());
             std::process::exit(1)
         }
     }
+    // serde_json::from_str(&res).unwrap() already implements below "method/functionality" . Hence No need
 
     // pub fn is_response_empty(value: &str) {
     //     if value.is_empty() {
