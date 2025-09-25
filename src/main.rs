@@ -1,17 +1,19 @@
-use clap::{Command, Arg};
-use serde::Deserialize;
+use clap::{Arg, Command};
 use models::{
     anthropic::anthropic, deepseek::deepseek, gemini::gemini, llama::llama, openai::openai,
 };
+use serde::Deserialize;
 use utils::{
-    config::{load_model_from_pref, load_models_from_json, print_to_cli, save_autocommit_preference, save_model_value},
+    config::{
+        load_model_from_pref, load_models_from_json, print_to_cli, save_autocommit_preference,
+        save_model_value,
+    },
     diff::is_git_initialized,
 };
 use yansi::Paint;
 
 mod models;
 mod utils;
-
 
 #[derive(Deserialize, Debug)]
 pub struct Model {
@@ -20,35 +22,30 @@ pub struct Model {
     provider: String,
 }
 
-
 fn main() {
     is_git_initialized();
     let description = " instant meaningful commit messages.\n (more): https://git.new/git-acm "
-        .magenta().bold()
+        .magenta()
+        .bold()
         .to_string();
 
     let cli = Command::new("git-acm")
-        .author("shivam [shivam.ing]")
-        .version("1.3.0") 
+        .author("Nims [TG10]")
+        .version("1.3.0")
         .about(description)
         .subcommand(
             Command::new("use")
-            .about("choose which model to use, run git-acm list to see the available models")
-            .arg(Arg::new("model").required(true))
+                .about("choose which model to use, run git-acm list to see the available models")
+                .arg(Arg::new("model").required(true)),
         )
-
         .subcommand(
             Command::new("autocommit")
                 .about("enable or disable autocommit functionality")
                 .subcommand(Command::new("enable"))
-                .subcommand(Command::new("disable"))
+                .subcommand(Command::new("disable")),
         )
-        .subcommand(
-            Command::new("list")
-                .about("lists all supported models")
-        )
+        .subcommand(Command::new("list").about("lists all supported models"))
         .get_matches();
-
 
     match cli.subcommand() {
         Some(("run", _)) => {
@@ -81,7 +78,6 @@ fn main() {
             }
         }
 
-
         Some(("autocommit", sub_matches)) => match sub_matches.subcommand() {
             Some(("enable", _)) => {
                 save_autocommit_preference("enable");
@@ -90,10 +86,7 @@ fn main() {
                 save_autocommit_preference("disable");
             }
             _ => {
-                println!(
-                    "{}",
-                    "invalid. available options : enable or disable".red()
-                );
+                println!("{}", "invalid. available options : enable or disable".red());
                 return;
             }
         },
@@ -104,7 +97,7 @@ fn main() {
 }
 
 fn get_commit_msg() {
-    let model = load_model_from_pref(None);   
+    let model = load_model_from_pref(None);
     let models_from_file = load_models_from_json();
     match models_from_file.iter().find(|m| m.model_api_name == model) {
         Some(model) => {
@@ -129,7 +122,11 @@ fn get_commit_msg() {
                     println!(
                         "{}{}",
                         "💡 choose from ".green(),
-                        models_from_file.iter().map(|m| m.model_api_name.clone()).collect::<Vec<String>>().join(" | ")
+                        models_from_file
+                            .iter()
+                            .map(|m| m.model_api_name.clone())
+                            .collect::<Vec<String>>()
+                            .join(" | ")
                     );
                     std::process::exit(1);
                 }
