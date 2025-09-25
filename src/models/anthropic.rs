@@ -25,7 +25,6 @@ pub fn anthropic() -> String {
     // this will always load anthropic model from the config file, coz it's only called when the model_provider is anthropic.
     let model = load_model_from_pref(Some("anthropic"));
 
-
     let req_body = json!({
     "model": model,
     "max_tokens": 60,
@@ -54,6 +53,7 @@ pub fn anthropic() -> String {
         Ok(mut res) => match res.text() {
             Ok(res) => {
                 let v: Value = serde_json::from_str(&res).unwrap();
+                //Commit msg is buried inside a key named "content", which holds an array, and within the first item of that array ([0]) is a key called "text"
                 let commit_msg = &v["content"][0]["text"];
                 let final_msg = commit_msg.to_string();
                 let clear_msg = final_msg.trim_matches(|c| c == '"' || c == '\n');
