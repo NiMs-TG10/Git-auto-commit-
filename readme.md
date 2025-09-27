@@ -5,7 +5,7 @@
 ![Crates.io Total Downloads](https://img.shields.io/crates/d/git-acm?labelColor=%23222&color=white)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/shivamhwp/git-acm/release.yml?labelColor=%23222&color=white)
 
-docs 📄 : [git-acm.pages.dev](https://git-acm.pages.dev) | crate 🦀 : [crates.io](https://crates.io/crates/git-acm)
+
 
 ### installation
 
